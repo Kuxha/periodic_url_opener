@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Periodic URL Opener",
+    "version": "1.0",
+    "description": "Opens a specific URL every 20 minutes.",
+    "permissions": ["tabs", "alarms"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_title": "Periodic URL Opener"
+    }
+  }
+  
