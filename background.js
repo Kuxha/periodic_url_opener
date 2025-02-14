@@ -7,33 +7,53 @@ const GOOGLE_INTERNSHIPS = "https://www.google.com/search?q=software+internships
 const SIMPLIFY_GITHUB = "https://github.com/SimplifyJobs/Summer2025-Internships"
 const LINKEDIN = "https://www.linkedin.com/jobs/search/?alertAction=viewjobs&currentJobId=4127868351&f_TPR=a1739256844-&geoId=103644278&keywords=intern%20&origin=JOB_SEARCH_PAGE_SEARCH_BUTTON&refresh=true&trk=eml-email_job_alert_digest_01-job~alert-0-see~all~jobs"
 const LATEST = "https://www.linkedin.com/jobs/search/?alertAction=viewjobs&currentJobId=4150534422&f_EA=true&f_TPR=a1739256844-&geoId=103644278&keywords=intern%20&origin=JOB_SEARCH_PAGE_SEARCH_BUTTON&refresh=true&sortBy=R&trk=eml-email_job_alert_digest_01-job~alert-0-see~all~jobs"
+const AMAZON = "https://www.amazon.jobs/en/search?offset=0&result_limit=10&sort=recent&distanceType=Mi&radius=24km&latitude=38.89037&longitude=-77.03196&loc_group_id=&loc_query=united%20states&base_query=software%20intern&city=&country=USA&region=&county=&query_options=&"
+
+
 const ALARM_NAME = "openUrlAlarm";
 const INTERVAL_MINUTES = 45; // period in minutes
+const DELAY_MS = 2000; // 2 seconds
 
 console.log("Background script running...");
 
 // Create or update the alarm when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed or updated. Setting up alarm...");
-  
+
   // Clear any old alarms (just to be sure)
   chrome.alarms.clearAll(() => {
-    // Create a new alarm that goes off every 20 minutes
+    // Create a new alarm that goes off every 45 minutes
     chrome.alarms.create(ALARM_NAME, { periodInMinutes: INTERVAL_MINUTES });
   });
 });
 
+// Function to open URLs with delay
+function openUrlsSequentially(urls) {
+  urls.forEach((url, index) => {
+    setTimeout(() => {
+      console.log(`Opening: ${url}`);
+      chrome.tabs.create({ url });
+    }, index * DELAY_MS);
+  });
+}
+
 // Listen for the alarm event
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === ALARM_NAME) {
-    console.log("Alarm triggered! Opening URL...");
-    chrome.tabs.create({ url: LATEST });
-    chrome.tabs.create({ url: LINKEDIN });
-    chrome.tabs.create({ url: DATA_INTERN });
-    chrome.tabs.create({ url: HANDSHAKE_INTERNSHIPS });
-    chrome.tabs.create({ url: GOOGLE_INTERNSHIPS });
-    chrome.tabs.create({ url: SIMPLIFY_GITHUB });
-    chrome.tabs.create({ url: LINKEDIN_TOP_RECOMMENDED });
-    chrome.tabs.create({ url: HANSHAKE_ON_CAMPUS });
+    console.log("Alarm triggered! Opening URLs sequentially...");
+    
+    const urls = [
+      AMAZON,
+      LATEST,
+      LINKEDIN,
+      DATA_INTERN,
+      HANDSHAKE_INTERNSHIPS,
+      GOOGLE_INTERNSHIPS,
+      SIMPLIFY_GITHUB,
+      LINKEDIN_TOP_RECOMMENDED,
+      HANSHAKE_ON_CAMPUS
+    ];
+    
+    openUrlsSequentially(urls);
   }
 });
