@@ -9,9 +9,13 @@ const JOBRIGHT = "https://jobright.ai/jobs/recommend"
 const INTERN_LIST = "https://www.intern-list.com/"
 const LATEST4= "https://www.linkedin.com/jobs/search/?currentJobId=4190127948&distance=25&f_TPR=86400&geoId=103644278&keywords=software%20%20intern&origin=JOB_SEARCH_PAGE_SEARCH_BUTTON&refresh=true"
 const SIMPLIFY = "https://github.com/SimplifyJobs/Summer2025-Internships"
+const HANDSHAKE_INTERSHIPS = "https://nyu.joinhandshake.com/stu/postings?page=1&per_page=25&sort_direction=desc&sort_column=created_at&job.job_types%5B%5D=3"
+const YC = "https://www.workatastartup.com/companies?demographic=any&hasEquity=any&hasSalary=any&industry=any&interviewProcess=any&jobType=intern&layout=list-compact&role=eng&sortBy=created_desc&tab=any&usVisaNotRequired=any"
+const WELLFOUND  = "https://wellfound.com/jobs"
+
 const ALARM_NAME = "openUrlAlarm";
-const INTERVAL_MINUTES = ; // period in minutes
-const DELAY_MS = 2000; // 2 seconds
+const INTERVAL_MINUTES = 45; // period in 45 minutes
+const DELAY_MS = 1000; // 1 seconds
 
 console.log("Background script running...");
 
@@ -43,15 +47,18 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     
     const urls = [
       LATEST,
-      LATEST2,
-      LATEST3,
-      AMAZON,
-      DATA_INTERN,
       JOBRIGHT,
       INTERN_LIST,
-      LATEST4,
+      LATEST2,
+      AMAZON,
+      LATEST3,
       SIMPLIFY,
+      LATEST4,
       HANSHAKE_ON_CAMPUS,
+      DATA_INTERN,
+      YC,
+      WELLFOUND,
+      HANDSHAKE_INTERSHIPS
     ];
     
     openUrlsSequentially(urls);
